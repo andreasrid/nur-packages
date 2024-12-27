@@ -8,13 +8,13 @@
 
 { pkgs ? import <nixpkgs> { } }:
 
-rec {
+pkgs.lib.makeScope pkgs.newScope (self: with self; {
   # The `lib`, `modules`, and `overlays` names are special
   lib = import ./lib { inherit pkgs; }; # functions
-  modules = import ./modules; # NixOS modules
+  modules = import ./modules { inherit self; }; # NixOS modules
   overlays = import ./overlays; # nixpkgs overlays
 
   python-xextract = pkgs.callPackage ./pkgs/python-xextract { };
   linguee-api = pkgs.callPackage ./pkgs/linguee-api { inherit python-xextract; };
   linguee-api-server = pkgs.python3Packages.callPackage ./pkgs/linguee-api/server.nix { inherit linguee-api; };
-}
+})

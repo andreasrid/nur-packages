@@ -1,3 +1,4 @@
+{ self }:
 { pkgs, lib, config, ... }:
 
 with lib;
@@ -10,8 +11,8 @@ in {
 
     package = mkOption {
       type = types.package;
-      default = pkgs.nur.repos.andreasrid.linguee-api;
-      defaultText = "pkgs.nur.repos.andreasrid.linguee-api";
+      default = self.linguee-api-server;
+      defaultText = "pkgs.nur.repos.andreasrid.linguee-api-server";
       description = "Set version of Linguee-API package to use.";
     };
   };
@@ -28,7 +29,7 @@ in {
       serviceConfig = {
         DynamicUser = true;
         RuntimeDirectory = "linguee-api";
-        ExecStart = "${cfg.package}/bin/linguee-api";
+        ExecStart = pkgs.lib.getExe cfg.package;
         Restart = "always";
       };
     };
