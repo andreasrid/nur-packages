@@ -45,6 +45,10 @@ buildPythonPackage {
     python-xextract
   ];
 
+  patches = [
+      ./determine-storage-location.patch
+  ];
+
   meta = with lib; {
     description = "Proxy to convert HTML responses from linguee.com to JSON format";
     homepage = "https://github.com/imankulov/linguee-api";
