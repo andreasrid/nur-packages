@@ -14,7 +14,9 @@
       treefmt-nix,
     }:
     let
-      eachSystem = f: nixpkgs.lib.genAttrs nixpkgs.lib.systems.flakeExposed (system: f nixpkgs.legacyPackages.${system});
+      eachSystem =
+        f:
+        nixpkgs.lib.genAttrs nixpkgs.lib.systems.flakeExposed (system: f nixpkgs.legacyPackages.${system});
       # Eval the treefmt modules from ./treefmt.nix
       treefmtEval = eachSystem (pkgs: treefmt-nix.lib.evalModule pkgs ./treefmt.nix);
     in
@@ -34,8 +36,10 @@
         };
       };
 
-      checks = eachSystem (pkgs:
-        self.legacyPackages.${pkgs.system}.tests // {
+      checks = eachSystem (
+        pkgs:
+        self.legacyPackages.${pkgs.system}.tests
+        // {
           formatting = treefmtEval.${pkgs.system}.config.build.check self;
         }
       );
