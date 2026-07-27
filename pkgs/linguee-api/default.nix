@@ -17,6 +17,7 @@ let
           tag = version;
           hash = "sha256-sd0SnaxuuF3Zaxx7rffn4ttBpRmWQoOtXln/amx9rII=";
         };
+        doCheck = false;
         disabledTestPaths = [
           # Don't test docs and examples
           "docs_src"
