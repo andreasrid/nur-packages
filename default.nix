@@ -20,7 +20,7 @@ pkgs.lib.makeScope pkgs.newScope (
     tests = import ./tests { inherit self pkgs; };
 
     python-xextract = pkgs.callPackage ./pkgs/python-xextract { };
-    linguee-api = pkgs.callPackage ./pkgs/linguee-api { inherit python-xextract; };
+    linguee-api = pkgs.python3Packages.callPackage ./pkgs/linguee-api { inherit python-xextract; };
     linguee-api-server = pkgs.callPackage ./pkgs/linguee-api/server.nix { inherit linguee-api; };
     stm32cubeide = pkgs.callPackage ./pkgs/stm32cubeide { };
     jlink-systemview = pkgs.callPackage ./pkgs/jlink-systemview { };

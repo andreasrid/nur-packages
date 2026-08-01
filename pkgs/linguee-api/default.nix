@@ -1,30 +1,40 @@
 {
-  python3Packages,
+  lib,
+  buildPythonPackage,
   fetchFromGitHub,
+  fastapi,
+  aiosqlite,
+  async-lru,
+  httpx,
+  loguru,
+  lxml,
+  pydantic_1,
+  python-dotenv,
+  sentry-sdk,
+  uvicorn,
   python-xextract,
+  poetry-core,
+  pythonRelaxDepsHook,
+  makeWrapper,
 }:
-
-with python3Packages;
 
 let
   # fastapi and linguee-api depend on different version of pydantic
   # replace dependency pydantic with pydantic_1
-  fastapi-customized =
-    (python3Packages.fastapi.override { pydantic = pydantic_1; }).overridePythonAttrs
-      (old: rec {
-        version = "0.116.1";
-        src = old.src.override {
-          tag = version;
-          hash = "sha256-sd0SnaxuuF3Zaxx7rffn4ttBpRmWQoOtXln/amx9rII=";
-        };
-        doCheck = false;
-        disabledTestPaths = [
-          # Don't test docs and examples
-          "docs_src"
-          "tests/test_tutorial/test_sql_databases"
-          "tests/test_tutorial/test_query_param_models"
-        ];
-      });
+  fastapi-customized = (fastapi.override { pydantic = pydantic_1; }).overridePythonAttrs (old: rec {
+    version = "0.116.1";
+    src = old.src.override {
+      tag = version;
+      hash = "sha256-sd0SnaxuuF3Zaxx7rffn4ttBpRmWQoOtXln/amx9rII=";
+    };
+    doCheck = false;
+    disabledTestPaths = [
+      # Don't test docs and examples
+      "docs_src"
+      "tests/test_tutorial/test_sql_databases"
+      "tests/test_tutorial/test_query_param_models"
+    ];
+  });
 
 in
 buildPythonPackage {
@@ -39,7 +49,7 @@ buildPythonPackage {
     hash = "sha256-CSskCYnB+mD+jxXWtAuXhLal9UWWFcEPR2olN7EfEZU=";
   };
 
-  nativeBuildInputs = with pkgs; [
+  nativeBuildInputs = [
     poetry-core
     pythonRelaxDepsHook
     makeWrapper
@@ -47,7 +57,7 @@ buildPythonPackage {
 
   pythonRelaxDeps = true;
 
-  propagatedBuildInputs = with python3Packages; [
+  propagatedBuildInputs = [
     aiosqlite
     async-lru
     fastapi-customized
