@@ -21,7 +21,7 @@ pkgs.lib.makeScope pkgs.newScope (
     overlays = import ./overlays; # nixpkgs overlays
     tests = import ./tests { inherit self pkgs; };
 
-    python-xextract = callPackage ./pkgs/python-xextract { };
+    python-xextract = pkgs.python3Packages.callPackage ./pkgs/python-xextract { };
     linguee-api = pkgs.python3Packages.callPackage ./pkgs/linguee-api { inherit python-xextract; };
     linguee-api-server = callPackage ./pkgs/linguee-api/server.nix { };
     stm32cubeide = callPackage ./pkgs/stm32cubeide { };
