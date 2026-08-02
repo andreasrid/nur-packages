@@ -13,7 +13,7 @@
   starlette,
   sentry-sdk,
   uvicorn,
-  python-xextract,
+  xextract,
   poetry-core,
   pythonRelaxDepsHook,
   makeWrapper,
@@ -82,7 +82,7 @@ buildPythonPackage {
     python-dotenv
     sentry-sdk
     uvicorn
-    python-xextract
+    xextract
   ];
 
   patches = [

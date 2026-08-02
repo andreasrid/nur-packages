@@ -26,5 +26,5 @@ pkgs.lib.makeScope pkgs.newScope (
     stm32cubeide = callPackage ./pkgs/stm32cubeide { };
     jlink-systemview = callPackage ./pkgs/jlink-systemview { };
   }
-  // import ./pkgs/python.nix { inherit pkgs; }
+  // import ./pkgs/python-packages { inherit pkgs; }
 )

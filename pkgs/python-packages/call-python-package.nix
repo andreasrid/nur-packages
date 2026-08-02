@@ -13,6 +13,6 @@ pkgs.lib.callPackageWith (
     python3 = python;
     python3Packages = python.pkgs;
   }
-  // import ./pkgs/python.nix { inherit python pkgs; }
+  // import ./. { inherit python pkgs; }
   // self
 )
