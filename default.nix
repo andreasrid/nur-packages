@@ -14,16 +14,18 @@
 pkgs.lib.makeScope pkgs.newScope (
   self: with self; {
     callPackage = pkgs.lib.callPackageWith (pkgs // self);
+    callPython3Package = callPackage ./call-python-package.nix { };
+    callPython313Package = callPackage ./call-python-package.nix {
+      python = pkgs.python313;
+    };
 
     # The `lib`, `modules`, and `overlays` names are special
-    lib = import ./lib { inherit pkgs; }; # functions
+    lib = pkgs.lib // import ./lib { inherit pkgs; }; # functions
     modules = import ./modules { inherit self; }; # NixOS modules
     overlays = import ./overlays; # nixpkgs overlays
     tests = import ./tests { inherit self pkgs; };
 
-    python-xextract = pkgs.python3Packages.callPackage ./pkgs/python-xextract { };
-    linguee-api = pkgs.python3Packages.callPackage ./pkgs/linguee-api { inherit python-xextract; };
-    linguee-api-server = callPackage ./pkgs/linguee-api/server.nix { };
+    linguee-api-server = callPython313Package ./pkgs/linguee-api/server.nix { };
     stm32cubeide = callPackage ./pkgs/stm32cubeide { };
     jlink-systemview = callPackage ./pkgs/jlink-systemview { };
   }
