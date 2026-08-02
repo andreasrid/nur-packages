@@ -1,7 +1,6 @@
 {
   pkgs,
   python ? pkgs.python3,
-  callPackage,
   self ? { },
 }:
 let
@@ -14,9 +13,6 @@ pkgs.lib.callPackageWith (
     python3 = python;
     python3Packages = python.pkgs;
   }
-  // rec {
-    python-xextract = python.pkgs.callPackage ./pkgs/python-xextract { };
-    linguee-api = python.pkgs.callPackage ./pkgs/linguee-api { inherit python-xextract; };
-  }
+  // import ./pkgs/python.nix { inherit python pkgs; }
   // self
 )
